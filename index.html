@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA Mème</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #222; color: white; }
+        #chatbox { max-width: 600px; margin: auto; padding: 20px; background: #333; border-radius: 10px; }
+        input { width: 80%; padding: 10px; margin-top: 10px; }
+        button { padding: 10px; cursor: pointer; }
+        .message { margin: 10px 0; padding: 10px; background: #444; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Discute avec l'IA des mèmes</h1>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <input type="text" id="userInput" placeholder="Pose une question...">
+        <button onclick="sendMessage()">Envoyer</button>
+    </div>
+    <script>
+        const memeResponses = [
+            "je ne pense pas qu'il y ai de bonne ou de mauvaises situations",
+            "non la vie de ma mère on va à Quiq wesh !",
+            "ho putain Laurent excuse moi de la réaction",
+            "s'il vous plait s'il vous plait monsieur ca suffit inaf inaf !",
+            "un ptit vrap !",
+            "a le cantine saque zedi avant que ça va sonner cliclicliclicliclicliclicliclicliclcilci",
+            "ça fait beaucoup la non ",
+            "comment ca mon reuf !",
+            "mais c'était sur enfaite mais c'était sur",
+            "heuu nike ta mère",
+            "bah oè hahaha logique",
+            "ho comme c'est bizarre",
+            "énorme !",
+            "ta gueule tu es moche !",
+            "cavales cavales kenni cavales !",
+            "mais l'amour n'a pas Jade",
+            "touche moi je t'empoisonne",
+            "je suis pas venu ici pour souffrir ok !",
+            "c'est tout simplement une allucination collective",
+            "y'a pas de panneau",
+            "holala mais c'est la décadence henn",
+            "moi je dis hagrah",
+            "fils de puteeeeeee!",
+            "moi tu me parle pas d'age",
+            "ah la on est bien !",
+            "ho la vache",
+            "kakou kakou",
+            "ha je suis biennnnnn halala qu'est ce que je suis biennn",
+            "nous y est",
+            "mais t'es pas net baptiste mais si je suis très net",
+            "allo Bassem oè c'est Greg",
+            "mais ca va pas ou quoi la",
+        
+        ];
+
+        function sendMessage() {
+            let input = document.getElementById("userInput").value.toLowerCase();
+            let messagesDiv = document.getElementById("messages");
+            let userMessage = `<div class='message'><strong>Toi:</strong> ${input}</div>`;
+            messagesDiv.innerHTML += userMessage;
+            document.getElementById("userInput").value = "";
+
+            let response = memeResponses[Math.floor(Math.random() * memeResponses.length)];
+            let botMessage = `<div class='message'><strong>IA:</strong> ${response}</div>`;
+            messagesDiv.innerHTML += botMessage;
+        }
+    </script>
+</body>
+</html>
