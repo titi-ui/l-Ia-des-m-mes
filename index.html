@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Camzo Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --blue: #8ed6fb;
+            --pink: #f15bb5;
+            --radius: 28px;
+            --shadow: 0 2px 8px rgba(30,34,40,0.08);
+        }
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: #fff;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #222;
+            font-weight: 700;
+            margin: 40px 0 10px 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto 0 auto;
+            padding: 0 16px;
+        }
+        .menu-btn {
+            background: var(--blue);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #222;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            margin-right: 8px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+        .search-bar input {
+            background: var(--blue);
+            border: none;
+            border-radius: 16px 0 0 16px;
+            padding: 12px 18px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #222;
+            outline: none;
+            width: 220px;
+            max-width: 60vw;
+        }
+        .search-bar button {
+            background: var(--blue);
+            border: none;
+            border-radius: 0 16px 16px 0;
+            padding: 12px 22px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #222;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: background 0.2s;
+        }
+        .search-bar button:hover {
+            background: #6ec1e4;
+        }
+        .categories-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .categories-bar button {
+            background: #fff;
+            border: 2px solid var(--blue);
+            color: #222;
+            border-radius: 16px;
+            padding: 8px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .categories-bar button.active,
+        .categories-bar button:hover {
+            background: var(--blue);
+            color: #222;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+            justify-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--blue);
+            border-radius: var(--radius);
+            width: 170px;
+            height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            overflow: hidden;
+        }
+        .card.has-img {
+            background: none;
+            padding: 0;
+        }
+        .card-img-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            border-radius: var(--radius);
+        }
+        .card-inner {
+            position: absolute;
+            left: 50%;
+            bottom: 32px;
+            transform: translateX(-50%);
+            background: var(--pink);
+            border-radius: 18px;
+            width: 110px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(30,34,40,0.08);
+        }
+        .card-inner span {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+        /* Détail */
+        .detail-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            background: #fff;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 20;
+            padding: 0 12px;
+        }
+        .detail-content {
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            max-width: 480px;
+            width: 100%;
+            margin: 40px auto 0 auto;
+            padding: 32px 24px 24px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .detail-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 32px;
+            background: var(--blue);
+            object-fit: cover;
+            margin-bottom: 18px;
+        }
+        .detail-title-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .detail-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--blue);
+            object-fit: cover;
+        }
+        .detail-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #222;
+        }
+        .detail-desc {
+            color: #444;
+            font-size: 1.08rem;
+            margin-bottom: 28px;
+            text-align: center;
+            min-height: 48px;
+        }
+        .detail-btn {
+            padding: 18px 0;
+            width: 100%;
+            border: none;
+            border-radius: 22px;
+            background: var(--blue);
+            color: #222;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 12px;
+        }
+        .detail-btn:hover {
+            background: #222;
+            color: #fff;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 8px;
+            text-decoration: underline;
+        }
+        .back-btn:hover {
+            color: #222;
+        }
+        /* Menu latéral */
+        .side-menu {
+            position: fixed;
+            top: 0; left: -260px;
+            width: 220px;
+            height: 100vh;
+            background: var(--blue);
+            box-shadow: 2px 0 16px rgba(30,34,40,0.13);
+            border-radius: 0 32px 32px 0;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            padding: 48px 0 0 0;
+            transition: left 0.3s;
+        }
+        .side-menu.open {
+            left: 0;
+        }
+        .side-menu button {
+            background: none;
+            border: none;
+            color: #222;
+            font-size: 1.15rem;
+            font-weight: 600;
+            padding: 16px 32px;
+            text-align: left;
+            border-radius: 0 16px 16px 0;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .side-menu button.active,
+        .side-menu button:hover {
+            background: #fff;
+        }
+        .side-menu .close-menu {
+            position: absolute;
+            top: 8px; 
+            right: 10px;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            color: #222;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        @media (max-width: 1100px) {
+            .grid { grid-template-columns: repeat(2, 1fr);}
+        }
+        @media (max-width: 700px) {
+            .grid { grid-template-columns: 1fr;}
+            .side-menu { width: 100vw; border-radius: 0 0 32px 32px; left: -100vw;}
+            .side-menu.open { left: 0;}
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top-bar">
+        <button class="menu-btn" id="openMenuBtn" title="Catégories">&#9776;</button>
+        <h1>Camzo Store</h1>
+        <div style="width:44px"></div>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Rechercher une app ou un site...">
+        <button onclick="searchApps()">Rechercher</button>
+    </div>
+    <div class="categories-bar" id="categoriesBar">
+        <!-- Catégories dynamiques -->
+    </div>
+    <div class="grid" id="appsGrid">
+        <!-- Cartes dynamiques -->
+    </div>
+    <!-- Détail -->
+    <div class="detail-page" id="detailPage">
+        <div class="detail-content">
+            <img id="detailImg" class="detail-img" src="" alt="Image">
+            <div class="detail-title-row">
+                <img id="detailIcon" class="detail-icon" src="" alt="Icône">
+                <span class="detail-title" id="detailTitle"></span>
+            </div>
+            <div class="detail-desc" id="detailDesc"></div>
+            <button class="detail-btn" id="detailBtn"></button>
+            <button class="back-btn" onclick="closeDetail()">← Retour</button>
+        </div>
+    </div>
+    <!-- Menu latéral -->
+    <div class="side-menu" id="sideMenu">
+        <button class="close-menu" onclick="closeMenu()">&times;</button>
+        <!-- Catégories dynamiques -->
+    </div>
+    <script>
+        // Ajout RamdoWeb + L'IA des mèmes
+        const apps = [
+            {
+                name: "RamdoWeb",
+                desc: "Un site web drôle et amusant pour créer des URL aléatoires.",
+                img: "ramdoweb_logo.png",
+                icon: "ramdoweb_logo.png",
+                link: "https://titi-ui.github.io/ramdoweb/",
+                categories: ["Tout", "Sites", "Fun", "Populaires"]
+            },
+            {
+                name: "L'IA des mèmes",
+                desc: "Un site drôle, amusant pour discuter avec une fausse IA qui ne dit que des mêmes.",
+                img: "https://titi-ui.github.io/l-Ia-des-m-mes/assets/logo.png",
+                icon: "https://titi-ui.github.io/l-Ia-des-m-mes/assets/logo.png",
+                link: "https://titi-ui.github.io/l-Ia-des-m-mes/",
+                categories: ["Tout", "Sites", "Fun", "Populaires"]
+            }
+        ];
+        const categories = ["Tout", "Apps", "Sites", "Populaires", "Fun", "Utiles"];
+        let currentCategory = "Tout";
+        let currentSearch = "";
+
+        // Génère les boutons de catégories
+        function renderCategories() {
+            const bar = document.getElementById('categoriesBar');
+            bar.innerHTML = '';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.textContent = cat;
+                btn.className = (cat === currentCategory) ? 'active' : '';
+                btn.onclick = () => { currentCategory = cat; renderApps(); renderCategories(); };
+                bar.appendChild(btn);
+            });
+            // Menu latéral
+            const menu = document.getElementById('sideMenu');
+            menu.innerHTML = '<button class="close-menu" onclick="closeMenu()">&times;</button>';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.textContent = cat;
+                btn.className = (cat === currentCategory) ? 'active' : '';
+                btn.onclick = () => { currentCategory = cat; renderApps(); renderCategories(); closeMenu(); };
+                menu.appendChild(btn);
+            });
+        }
+
+        // Génère la grille d'apps/sites
+        function renderApps() {
+            const grid = document.getElementById('appsGrid');
+            let filtered = apps.filter(app =>
+                (currentCategory === "Tout" || app.categories.includes(currentCategory)) &&
+                (currentSearch === "" || app.name.toLowerCase().includes(currentSearch))
+            );
+            grid.innerHTML = '';
+            filtered.forEach(app => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openDetail(app);
+
+                // Image de fond
+                if (app.img) {
+                    card.classList.add('has-img');
+                    const imgBg = document.createElement('img');
+                    imgBg.src = app.img;
+                    imgBg.alt = app.name;
+                    imgBg.className = 'card-img-bg';
+                    card.appendChild(imgBg);
+                }
+
+                // Carré rose avec nom (plus d'icône ici)
+                const inner = document.createElement('div');
+                inner.className = 'card-inner';
+                const span = document.createElement('span');
+                span.textContent = app.name;
+                inner.appendChild(span);
+
+                card.appendChild(inner);
+                grid.appendChild(card);
+            });
+        }
+
+        // Recherche
+        function searchApps() {
+            const val = document.getElementById('searchInput').value.trim().toLowerCase();
+            currentSearch = val;
+            renderApps();
+        }
+        document.getElementById('searchInput').addEventListener('input', searchApps);
+
+        // Détail
+        function openDetail(app) {
+            document.getElementById('detailImg').src = app.img;
+            document.getElementById('detailIcon').src = app.icon;
+            document.getElementById('detailTitle').textContent = app.name;
+            document.getElementById('detailDesc').textContent = app.desc;
+            const btn = document.getElementById('detailBtn');
+            btn.textContent = app.link && app.link !== "#" ? "Télécharger / visiter" : "Fermer";
+            btn.onclick = () => {
+                if (app.link && app.link !== "#") window.open(app.link, '_blank');
+                else closeDetail();
+            };
+            document.getElementById('detailPage').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDetail() {
+            document.getElementById('detailPage').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Menu latéral
+        function openMenu() {
+            document.getElementById('sideMenu').classList.add('open');
+        }
+        function closeMenu() {
+            document.getElementById('sideMenu').classList.remove('open');
+        }
+        document.getElementById('openMenuBtn').onclick = openMenu;
+
+        // Init
+        renderCategories();
+        renderApps();
+    </script>
+</body>
+</html>
